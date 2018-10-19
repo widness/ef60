@@ -5,9 +5,9 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="d4e779b7273a41f4bde5a872b8d43be0" Name="Diagram1" >
-        <EntityTypeShape EntityType="Model1.Hotel" Width="1.25" PointX="1.25" PointY="0.75" />
-        <EntityTypeShape EntityType="Model1.localite" Width="1.25" PointX="3.375" PointY="1.25" IsExpanded="true" />
-        <AssociationConnector Association="Model1.localiteHotel" />
+        <EntityTypeShape EntityType="Model1.Hotel" Width="1.5" PointX="5.625" PointY="1.25" />
+        <EntityTypeShape EntityType="Model1.localite" Width="1.5" PointX="2.625" PointY="1.875" />
+        <AssociationConnector Association="Model1.FK_localiteHotel" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -3,7 +3,7 @@
   <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Hotels" EntityType="Model1.Hotel" />
     <EntitySet Name="localites" EntityType="Model1.localite" />
-    <AssociationSet Name="localiteHotel" Association="Model1.localiteHotel">
+    <AssociationSet Name="FK_localiteHotel" Association="Model1.FK_localiteHotel">
       <End Role="localite" EntitySet="localites" />
       <End Role="Hotel" EntitySet="Hotels" />
     </AssociationSet>
@@ -13,27 +13,36 @@
       <PropertyRef Name="idHotel" />
     </Key>
     <Property Name="idHotel" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Name" Type="String" Nullable="false" />
-    <Property Name="Description" Type="String" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Category" Type="Int32" Nullable="false" />
     <Property Name="HasWifi" Type="Boolean" Nullable="false" />
-    <Property Name="Phone" Type="String" Nullable="false" MaxLength="20" />
-    <Property Name="Email" Type="String" Nullable="false" />
-    <Property Name="Website" Type="String" Nullable="false" />
+    <Property Name="Phone" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Website" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="HasParking" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="localite" Relationship="Model1.localiteHotel" FromRole="Hotel" ToRole="localite" />
+    <Property Name="localite_IdLocalite" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="localite" Relationship="Model1.FK_localiteHotel" FromRole="Hotel" ToRole="localite" />
   </EntityType>
   <EntityType Name="localite">
     <Key>
       <PropertyRef Name="IdLocalite" />
     </Key>
     <Property Name="IdLocalite" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Name" Type="String" Nullable="false" />
-    <Property Name="NPA" Type="String" Nullable="false" />
-    <NavigationProperty Name="Hotels" Relationship="Model1.localiteHotel" FromRole="localite" ToRole="Hotel" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="NPA" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Hotels" Relationship="Model1.FK_localiteHotel" FromRole="localite" ToRole="Hotel" />
   </EntityType>
-  <Association Name="localiteHotel">
+  <Association Name="FK_localiteHotel">
     <End Type="Model1.localite" Role="localite" Multiplicity="1" />
     <End Type="Model1.Hotel" Role="Hotel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="localite">
+        <PropertyRef Name="IdLocalite" />
+      </Principal>
+      <Dependent Role="Hotel">
+        <PropertyRef Name="localite_IdLocalite" />
+      </Dependent>
+    </ReferentialConstraint>
   </Association>
 </Schema>

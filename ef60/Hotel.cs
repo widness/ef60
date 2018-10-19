@@ -23,6 +23,7 @@ namespace ef60
         public string Email { get; set; }
         public string Website { get; set; }
         public bool HasParking { get; set; }
+        public int localite_IdLocalite { get; set; }
     
         public virtual localite localite { get; set; }
     }

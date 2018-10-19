@@ -1,13 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityContainer Name="Model1StoreContainer">
-    <EntitySet Name="Hotels" EntityType="Model1.Store.Hotels" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="localites" EntityType="Model1.Store.localites" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="localiteHotel" Association="Model1.Store.localiteHotel">
-      <End Role="localite" EntitySet="localites" />
-      <End Role="Hotel" EntitySet="Hotels" />
-    </AssociationSet>
-  </EntityContainer>
+<Schema Namespace="Model1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="Hotels">
     <Key>
       <PropertyRef Name="idHotel" />
@@ -17,7 +9,7 @@
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Category" Type="int" Nullable="false" />
     <Property Name="HasWifi" Type="bit" Nullable="false" />
-    <Property Name="Phone" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="20" Nullable="false" />
     <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Website" Type="nvarchar(max)" Nullable="false" />
     <Property Name="HasParking" Type="bit" Nullable="false" />
@@ -31,16 +23,24 @@
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="NPA" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <Association Name="localiteHotel">
-    <End Role="localite" Type="Model1.Store.localites" Multiplicity="1" />
-    <End Role="Hotel" Type="Model1.Store.Hotels" Multiplicity="*" />
+  <Association Name="FK_localiteHotel">
+    <End Role="localites" Type="Self.localites" Multiplicity="1" />
+    <End Role="Hotels" Type="Self.Hotels" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="localite">
+      <Principal Role="localites">
         <PropertyRef Name="IdLocalite" />
       </Principal>
-      <Dependent Role="Hotel">
+      <Dependent Role="Hotels">
         <PropertyRef Name="localite_IdLocalite" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityContainer Name="Model1StoreContainer">
+    <EntitySet Name="Hotels" EntityType="Self.Hotels" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="localites" EntityType="Self.localites" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_localiteHotel" Association="Self.FK_localiteHotel">
+      <End Role="localites" EntitySet="localites" />
+      <End Role="Hotels" EntitySet="Hotels" />
+    </AssociationSet>
+  </EntityContainer>
 </Schema>

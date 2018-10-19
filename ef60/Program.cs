@@ -71,10 +71,33 @@ namespace ef60
                 Email = "nouveau@4",
                 Website = "www",
                 HasParking = true,
-                localite=context.localites.Find(3)
+                localite = context.localites.Find(3)
              };
 
             context.Hotels.Add(nouveau); // Prepare la requete
+
+            context.SaveChanges(); // Envoie dans la base
+
+            print(context);
+
+
+            // Insert with foreignkey
+            Console.WriteLine(" -- Insert: Foreing key");
+
+            Hotel nouveau2 = new Hotel
+            {
+                Name = "hotel4",
+                Description = "desc4",
+                Category = 1,
+                HasWifi = true,
+                Phone = "04",
+                Email = "nouveau@4",
+                Website = "www",
+                HasParking = true,
+                localite_IdLocalite = 3
+            };
+
+            context.Hotels.Add(nouveau2); // Prepare la requete
 
             context.SaveChanges(); // Envoie dans la base
 
