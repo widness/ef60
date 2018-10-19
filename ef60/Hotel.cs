@@ -14,6 +14,12 @@ namespace ef60
     
     public partial class Hotel
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Hotel()
+        {
+            this.Customers = new HashSet<Customer>();
+        }
+    
         public int idHotel { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -26,5 +32,7 @@ namespace ef60
         public int localite_IdLocalite { get; set; }
     
         public virtual localite localite { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Customer> Customers { get; set; }
     }
 }
