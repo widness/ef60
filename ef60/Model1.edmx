@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="Model1StoreContainer">
+    <EntitySet Name="Hotels" EntityType="Model1.Store.Hotels" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="localites" EntityType="Model1.Store.localites" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="localiteHotel" Association="Model1.Store.localiteHotel">
+      <End Role="localite" EntitySet="localites" />
+      <End Role="Hotel" EntitySet="Hotels" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Hotels">
+    <Key>
+      <PropertyRef Name="idHotel" />
+    </Key>
+    <Property Name="idHotel" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Category" Type="int" Nullable="false" />
+    <Property Name="HasWifi" Type="bit" Nullable="false" />
+    <Property Name="Phone" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Website" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="HasParking" Type="bit" Nullable="false" />
+    <Property Name="localite_IdLocalite" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="localites">
+    <Key>
+      <PropertyRef Name="IdLocalite" />
+    </Key>
+    <Property Name="IdLocalite" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="NPA" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="localiteHotel">
+    <End Role="localite" Type="Model1.Store.localites" Multiplicity="1" />
+    <End Role="Hotel" Type="Model1.Store.Hotels" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="localite">
+        <PropertyRef Name="IdLocalite" />
+      </Principal>
+      <Dependent Role="Hotel">
+        <PropertyRef Name="localite_IdLocalite" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Hotels" EntityType="Model1.Hotel" />
+          <EntitySet Name="localites" EntityType="Model1.localite" />
+          <AssociationSet Name="localiteHotel" Association="Model1.localiteHotel">
+            <End Role="localite" EntitySet="localites" />
+            <End Role="Hotel" EntitySet="Hotels" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Hotel">
+          <Key>
+            <PropertyRef Name="idHotel" />
+          </Key>
+          <Property Name="idHotel" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" />
+          <Property Name="Category" Type="Int32" Nullable="false" />
+          <Property Name="HasWifi" Type="Boolean" Nullable="false" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="Email" Type="String" Nullable="false" />
+          <Property Name="Website" Type="String" Nullable="false" />
+          <Property Name="HasParking" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="localite" Relationship="Model1.localiteHotel" FromRole="Hotel" ToRole="localite" />
+        </EntityType>
+        <EntityType Name="localite">
+          <Key>
+            <PropertyRef Name="IdLocalite" />
+          </Key>
+          <Property Name="IdLocalite" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="NPA" Type="String" Nullable="false" />
+          <NavigationProperty Name="Hotels" Relationship="Model1.localiteHotel" FromRole="localite" ToRole="Hotel" />
+        </EntityType>
+        <Association Name="localiteHotel">
+          <End Type="Model1.localite" Role="localite" Multiplicity="1" />
+          <End Type="Model1.Hotel" Role="Hotel" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="Model1Container">
+    <EntitySetMapping Name="Hotels">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Hotel)">
+        <MappingFragment StoreEntitySet="Hotels">
+          <ScalarProperty Name="idHotel" ColumnName="idHotel" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="HasWifi" ColumnName="HasWifi" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Website" ColumnName="Website" />
+          <ScalarProperty Name="HasParking" ColumnName="HasParking" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="localites">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.localite)">
+        <MappingFragment StoreEntitySet="localites">
+          <ScalarProperty Name="IdLocalite" ColumnName="IdLocalite" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="NPA" ColumnName="NPA" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="localiteHotel" TypeName="Model1.localiteHotel" StoreEntitySet="Hotels">
+      <EndProperty Name="localite">
+        <ScalarProperty Name="IdLocalite" ColumnName="localite_IdLocalite" />
+      </EndProperty>
+      <EndProperty Name="Hotel">
+        <ScalarProperty Name="idHotel" ColumnName="idHotel" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

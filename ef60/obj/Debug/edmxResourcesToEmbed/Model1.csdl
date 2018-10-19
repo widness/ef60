@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Hotels" EntityType="Model1.Hotel" />
+    <EntitySet Name="localites" EntityType="Model1.localite" />
+    <AssociationSet Name="localiteHotel" Association="Model1.localiteHotel">
+      <End Role="localite" EntitySet="localites" />
+      <End Role="Hotel" EntitySet="Hotels" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Hotel">
+    <Key>
+      <PropertyRef Name="idHotel" />
+    </Key>
+    <Property Name="idHotel" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <Property Name="Description" Type="String" Nullable="false" />
+    <Property Name="Category" Type="Int32" Nullable="false" />
+    <Property Name="HasWifi" Type="Boolean" Nullable="false" />
+    <Property Name="Phone" Type="String" Nullable="false" MaxLength="20" />
+    <Property Name="Email" Type="String" Nullable="false" />
+    <Property Name="Website" Type="String" Nullable="false" />
+    <Property Name="HasParking" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="localite" Relationship="Model1.localiteHotel" FromRole="Hotel" ToRole="localite" />
+  </EntityType>
+  <EntityType Name="localite">
+    <Key>
+      <PropertyRef Name="IdLocalite" />
+    </Key>
+    <Property Name="IdLocalite" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <Property Name="NPA" Type="String" Nullable="false" />
+    <NavigationProperty Name="Hotels" Relationship="Model1.localiteHotel" FromRole="localite" ToRole="Hotel" />
+  </EntityType>
+  <Association Name="localiteHotel">
+    <End Type="Model1.localite" Role="localite" Multiplicity="1" />
+    <End Type="Model1.Hotel" Role="Hotel" Multiplicity="*" />
+  </Association>
+</Schema>

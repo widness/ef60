@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="Model1Container">
+    <EntitySetMapping Name="Hotels">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Hotel)">
+        <MappingFragment StoreEntitySet="Hotels">
+          <ScalarProperty Name="idHotel" ColumnName="idHotel" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="HasWifi" ColumnName="HasWifi" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Website" ColumnName="Website" />
+          <ScalarProperty Name="HasParking" ColumnName="HasParking" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="localites">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.localite)">
+        <MappingFragment StoreEntitySet="localites">
+          <ScalarProperty Name="IdLocalite" ColumnName="IdLocalite" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="NPA" ColumnName="NPA" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="localiteHotel" TypeName="Model1.localiteHotel" StoreEntitySet="Hotels">
+      <EndProperty Name="localite">
+        <ScalarProperty Name="IdLocalite" ColumnName="localite_IdLocalite" />
+      </EndProperty>
+      <EndProperty Name="Hotel">
+        <ScalarProperty Name="idHotel" ColumnName="idHotel" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

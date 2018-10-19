@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="Model1StoreContainer">
+    <EntitySet Name="Hotels" EntityType="Model1.Store.Hotels" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="localites" EntityType="Model1.Store.localites" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="localiteHotel" Association="Model1.Store.localiteHotel">
+      <End Role="localite" EntitySet="localites" />
+      <End Role="Hotel" EntitySet="Hotels" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Hotels">
+    <Key>
+      <PropertyRef Name="idHotel" />
+    </Key>
+    <Property Name="idHotel" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Category" Type="int" Nullable="false" />
+    <Property Name="HasWifi" Type="bit" Nullable="false" />
+    <Property Name="Phone" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Website" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="HasParking" Type="bit" Nullable="false" />
+    <Property Name="localite_IdLocalite" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="localites">
+    <Key>
+      <PropertyRef Name="IdLocalite" />
+    </Key>
+    <Property Name="IdLocalite" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="NPA" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="localiteHotel">
+    <End Role="localite" Type="Model1.Store.localites" Multiplicity="1" />
+    <End Role="Hotel" Type="Model1.Store.Hotels" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="localite">
+        <PropertyRef Name="IdLocalite" />
+      </Principal>
+      <Dependent Role="Hotel">
+        <PropertyRef Name="localite_IdLocalite" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
