@@ -23,7 +23,7 @@ namespace ef60
 
             var q = from h in context.Hotels
                     where h.idHotel == 4
-                    && h.Website.StartsWith("www")
+                    && h.Website.StartsWith("http://")
                     select new { h.Name, h.Phone, h.Website };
 
             var hotel = q.FirstOrDefault(); // Prend uniquement le premier
@@ -38,7 +38,7 @@ namespace ef60
             // Sum
             Console.WriteLine("Sum");
             var q2 = (from h in context.Hotels
-                    where h.Website.StartsWith("www")
+                    where h.Website.StartsWith("http://")
                     select h.Category).Sum(); // Fait la some de
 
             Console.WriteLine(q2);
@@ -46,7 +46,7 @@ namespace ef60
             // Group by
             Console.WriteLine("Group by");
             var q3 = from h in context.Hotels
-                     where h.Website.StartsWith("www")
+                     where h.Website.StartsWith("http://")
                      group h.Category by h.HasWifi into grouped
                      select grouped;
 
@@ -69,7 +69,7 @@ namespace ef60
                 HasWifi = true,
                 Phone = "04",
                 Email = "nouveau@4",
-                Website = "www",
+                Website = "http://",
                 HasParking = true,
                 localite = context.localites.Find(3)
              };
@@ -92,7 +92,7 @@ namespace ef60
                 HasWifi = true,
                 Phone = "04",
                 Email = "nouveau@4",
-                Website = "www",
+                Website = "http://4",
                 HasParking = true,
                 localite_IdLocalite = 3
             };
