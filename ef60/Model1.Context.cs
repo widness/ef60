@@ -25,8 +25,8 @@ namespace ef60
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Hotel> Hotels { get; set; }
         public virtual DbSet<localite> localites { get; set; }
-        public virtual DbSet<Customer> Customers { get; set; }
     }
 }

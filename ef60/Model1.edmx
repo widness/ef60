@@ -5,6 +5,22 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Model1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CustomerHotel">
+          <Key>
+            <PropertyRef Name="Customers_Id" />
+            <PropertyRef Name="Hotels_idHotel" />
+          </Key>
+          <Property Name="Customers_Id" Type="int" Nullable="false" />
+          <Property Name="Hotels_idHotel" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="localite_IdLocalite" Type="int" />
+        </EntityType>
         <EntityType Name="Hotels">
           <Key>
             <PropertyRef Name="idHotel" />
@@ -28,6 +44,42 @@
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="NPA" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
+        <Association Name="FK_CustomerHotel_Customer">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+          <End Role="CustomerHotel" Type="Self.CustomerHotel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerHotel">
+              <PropertyRef Name="Customers_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerHotel_Hotel">
+          <End Role="Hotels" Type="Self.Hotels" Multiplicity="1" />
+          <End Role="CustomerHotel" Type="Self.CustomerHotel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotels">
+              <PropertyRef Name="idHotel" />
+            </Principal>
+            <Dependent Role="CustomerHotel">
+              <PropertyRef Name="Hotels_idHotel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customerlocalite">
+          <End Role="localites" Type="Self.localites" Multiplicity="0..1" />
+          <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="localites">
+              <PropertyRef Name="IdLocalite" />
+            </Principal>
+            <Dependent Role="Customers">
+              <PropertyRef Name="localite_IdLocalite" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_localiteHotel">
           <End Role="localites" Type="Self.localites" Multiplicity="1" />
           <End Role="Hotels" Type="Self.Hotels" Multiplicity="*" />
@@ -41,8 +93,22 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Model1StoreContainer">
+          <EntitySet Name="CustomerHotel" EntityType="Self.CustomerHotel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hotels" EntityType="Self.Hotels" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="localites" EntityType="Self.localites" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CustomerHotel_Customer" Association="Self.FK_CustomerHotel_Customer">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="CustomerHotel" EntitySet="CustomerHotel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerHotel_Hotel" Association="Self.FK_CustomerHotel_Hotel">
+            <End Role="Hotels" EntitySet="Hotels" />
+            <End Role="CustomerHotel" EntitySet="CustomerHotel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customerlocalite" Association="Self.FK_Customerlocalite">
+            <End Role="localites" EntitySet="localites" />
+            <End Role="Customers" EntitySet="Customers" />
+          </AssociationSet>
           <AssociationSet Name="FK_localiteHotel" Association="Self.FK_localiteHotel">
             <End Role="localites" EntitySet="localites" />
             <End Role="Hotels" EntitySet="Hotels" />
@@ -53,22 +119,32 @@
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
         <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customers" EntityType="Model1.Customer" />
           <EntitySet Name="Hotels" EntityType="Model1.Hotel" />
           <EntitySet Name="localites" EntityType="Model1.localite" />
+          <AssociationSet Name="FK_Customerlocalite" Association="Model1.FK_Customerlocalite">
+            <End Role="localite" EntitySet="localites" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
           <AssociationSet Name="FK_localiteHotel" Association="Model1.FK_localiteHotel">
             <End Role="localite" EntitySet="localites" />
             <End Role="Hotel" EntitySet="Hotels" />
           </AssociationSet>
-          <EntitySet Name="Customers" EntityType="Model1.Customer" />
           <AssociationSet Name="CustomerHotel" Association="Model1.CustomerHotel">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="Hotel" EntitySet="Hotels" />
           </AssociationSet>
-          <AssociationSet Name="Customerlocalite" Association="Model1.Customerlocalite">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="localite" EntitySet="localites" />
-          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="localite_IdLocalite" Type="Int32" />
+          <NavigationProperty Name="localite" Relationship="Model1.FK_Customerlocalite" FromRole="Customer" ToRole="localite" />
+          <NavigationProperty Name="Hotels" Relationship="Model1.CustomerHotel" FromRole="Customer" ToRole="Hotel" />
+        </EntityType>
         <EntityType Name="Hotel">
           <Key>
             <PropertyRef Name="idHotel" />
@@ -93,9 +169,21 @@
           <Property Name="IdLocalite" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="NPA" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Customers" Relationship="Model1.FK_Customerlocalite" FromRole="localite" ToRole="Customer" />
           <NavigationProperty Name="Hotels" Relationship="Model1.FK_localiteHotel" FromRole="localite" ToRole="Hotel" />
-          <NavigationProperty Name="Customers" Relationship="Model1.Customerlocalite" FromRole="localite" ToRole="Customer" />
         </EntityType>
+        <Association Name="FK_Customerlocalite">
+          <End Type="Model1.localite" Role="localite" Multiplicity="0..1" />
+          <End Type="Model1.Customer" Role="Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="localite">
+              <PropertyRef Name="IdLocalite" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="localite_IdLocalite" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_localiteHotel">
           <End Type="Model1.localite" Role="localite" Multiplicity="1" />
           <End Type="Model1.Hotel" Role="Hotel" Multiplicity="*" />
@@ -108,29 +196,25 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Customer">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" />
-          <NavigationProperty Name="Hotels" Relationship="Model1.CustomerHotel" FromRole="Customer" ToRole="Hotel" />
-          <NavigationProperty Name="localite" Relationship="Model1.Customerlocalite" FromRole="Customer" ToRole="localite" />
-        </EntityType>
         <Association Name="CustomerHotel">
           <End Type="Model1.Customer" Role="Customer" Multiplicity="*" />
           <End Type="Model1.Hotel" Role="Hotel" Multiplicity="*" />
         </Association>
-        <Association Name="Customerlocalite">
-          <End Type="Model1.Customer" Role="Customer" Multiplicity="*" />
-          <End Type="Model1.localite" Role="localite" Multiplicity="0..1" />
-        </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="Model1Container">
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="Model1.Customer">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="localite_IdLocalite" ColumnName="localite_IdLocalite" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Hotels">
             <EntityTypeMapping TypeName="Model1.Hotel">
               <MappingFragment StoreEntitySet="Hotels">
@@ -156,6 +240,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="CustomerHotel" TypeName="Model1.CustomerHotel" StoreEntitySet="CustomerHotel">
+            <EndProperty Name="Hotel">
+              <ScalarProperty Name="idHotel" ColumnName="Hotels_idHotel" />
+            </EndProperty>
+            <EndProperty Name="Customer">
+              <ScalarProperty Name="Id" ColumnName="Customers_Id" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
