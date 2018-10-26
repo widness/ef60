@@ -167,8 +167,13 @@ namespace ef60
                     Console.WriteLine(h.Name + " " + h.HasWifi);
                 }
             }
-             // End programm
-             Console.ReadKey();
+
+
+            Console.WriteLine(" -- get with Join and the Join of the target");
+
+
+            // End programm
+            Console.ReadKey();
         }
     }
 }
