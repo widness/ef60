@@ -9,6 +9,16 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
+      <EntityTypeMapping TypeName="Model1.Customer">
+        <ModificationFunctionMapping>
+          <DeleteFunction FunctionName="Model1.Store.CustomerInsert">
+            <ScalarProperty Name="Id" ParameterName="custID" />
+          </DeleteFunction>
+          <InsertFunction FunctionName="Model1.Store.CustomerInsert">
+            <ScalarProperty Name="Id" ParameterName="custID" />
+          </InsertFunction>
+        </ModificationFunctionMapping>
+      </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Hotels">
       <EntityTypeMapping TypeName="Model1.Hotel">
@@ -43,5 +53,7 @@
         <ScalarProperty Name="Id" ColumnName="Customers_Id" />
       </EndProperty>
     </AssociationSetMapping>
+    <FunctionImportMapping FunctionImportName="CustomerDelete" FunctionName="Model1.Store.CustomerDelete" />
+    <FunctionImportMapping FunctionImportName="CustomerInsert" FunctionName="Model1.Store.CustomerInsert" />
   </EntityContainerMapping>
 </Mapping>

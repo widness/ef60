@@ -168,9 +168,37 @@ namespace ef60
                 }
             }
 
+            // Request with 2 Inner Join: A -> X <- B
+            Console.WriteLine(" -- get¨double with Join");
 
+            foreach (Hotel h in context.Hotels.Include("Localite").Include("Customers"))
+            {
+                Console.Write(h.Name + " " + h.localite.Name + " Customers: ");
+                foreach(Customer c in h.Customers) {
+                    Console.WriteLine(c.Name + " ");
+                }
+                Console.WriteLine(" ");
+            }
+
+            // Requst with an Inner Join from an Inner Join : X <- A <- B
             Console.WriteLine(" -- get with Join and the Join of the target");
+        
+            foreach (localite l in context.localites.Include("Hotels.Customers"))
+            {
+                foreach (Hotel h in l.Hotels)
+                {
+                    Console.WriteLine("Hotel: " + h.Name);
+                }
+            }
 
+            // Stored Procedures (Auto call before that's mapped)
+            Console.WriteLine("-- Delete with Stored Procedures");
+
+            Customer aSupprimer = context.Customers.Find(3);
+
+            context.Customers.Remove(aSupprimer);
+
+            context.SaveChanges();
 
             // End programm
             Console.ReadKey();

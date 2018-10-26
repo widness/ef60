@@ -87,6 +87,12 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="CustomerDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="custID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="CustomerInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="custID" Type="int" Mode="In" />
+  </Function>
   <EntityContainer Name="Model1StoreContainer">
     <EntitySet Name="CustomerHotel" EntityType="Self.CustomerHotel" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />

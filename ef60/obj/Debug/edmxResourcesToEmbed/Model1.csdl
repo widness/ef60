@@ -16,6 +16,12 @@
       <End Role="Customer" EntitySet="Customers" />
       <End Role="Hotel" EntitySet="Hotels" />
     </AssociationSet>
+    <FunctionImport Name="CustomerDelete">
+      <Parameter Name="custID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="CustomerInsert">
+      <Parameter Name="custID" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <EntityType Name="Customer">
     <Key>

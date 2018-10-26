@@ -92,6 +92,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="CustomerDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="custID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="CustomerInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="custID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="Model1StoreContainer">
           <EntitySet Name="CustomerHotel" EntityType="Self.CustomerHotel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
@@ -134,6 +140,12 @@
             <End Role="Customer" EntitySet="Customers" />
             <End Role="Hotel" EntitySet="Hotels" />
           </AssociationSet>
+          <FunctionImport Name="CustomerDelete">
+          <Parameter Name="custID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="CustomerInsert">
+            <Parameter Name="custID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Customer">
           <Key>
@@ -214,6 +226,16 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
+            <EntityTypeMapping TypeName="Model1.Customer">
+              <ModificationFunctionMapping>
+                <DeleteFunction FunctionName="Model1.Store.CustomerInsert" >
+                  <ScalarProperty Name="Id" ParameterName="custID" />
+                </DeleteFunction>
+                <InsertFunction FunctionName="Model1.Store.CustomerInsert" >
+                  <ScalarProperty Name="Id" ParameterName="custID" />
+                </InsertFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Hotels">
             <EntityTypeMapping TypeName="Model1.Hotel">
@@ -248,6 +270,8 @@
               <ScalarProperty Name="Id" ColumnName="Customers_Id" />
             </EndProperty>
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="CustomerDelete" FunctionName="Model1.Store.CustomerDelete" />
+          <FunctionImportMapping FunctionImportName="CustomerInsert" FunctionName="Model1.Store.CustomerInsert" />
         </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
