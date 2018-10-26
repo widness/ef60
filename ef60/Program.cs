@@ -23,7 +23,7 @@ namespace ef60
 
             var q = from h in context.Hotels
                     where h.idHotel == 4
-                    && h.Website.StartsWith("www")
+                    && h.Website.StartsWith("http://")
                     select new { h.Name, h.Phone, h.Website };
 
             var hotel = q.FirstOrDefault(); // Prend uniquement le premier
@@ -38,7 +38,7 @@ namespace ef60
             // Sum
             Console.WriteLine("Sum");
             var q2 = (from h in context.Hotels
-                    where h.Website.StartsWith("www")
+                    where h.Website.StartsWith("http://")
                     select h.Category).Sum(); // Fait la some de
 
             Console.WriteLine(q2);
@@ -46,7 +46,7 @@ namespace ef60
             // Group by
             Console.WriteLine("Group by");
             var q3 = from h in context.Hotels
-                     where h.Website.StartsWith("www")
+                     where h.Website.StartsWith("http://")
                      group h.Category by h.HasWifi into grouped
                      select grouped;
 
@@ -69,7 +69,7 @@ namespace ef60
                 HasWifi = true,
                 Phone = "04",
                 Email = "nouveau@4",
-                Website = "www",
+                Website = "http://",
                 HasParking = true,
                 localite = context.localites.Find(3)
              };
@@ -92,7 +92,7 @@ namespace ef60
                 HasWifi = true,
                 Phone = "04",
                 Email = "nouveau@4",
-                Website = "www",
+                Website = "http://4",
                 HasParking = true,
                 localite_IdLocalite = 3
             };
@@ -167,8 +167,41 @@ namespace ef60
                     Console.WriteLine(h.Name + " " + h.HasWifi);
                 }
             }
-             // End programm
-             Console.ReadKey();
+
+            // Request with 2 Inner Join: A -> X <- B
+            Console.WriteLine(" -- get¨double with Join");
+
+            foreach (Hotel h in context.Hotels.Include("Localite").Include("Customers"))
+            {
+                Console.Write(h.Name + " " + h.localite.Name + " Customers: ");
+                foreach(Customer c in h.Customers) {
+                    Console.WriteLine(c.Name + " ");
+                }
+                Console.WriteLine(" ");
+            }
+
+            // Requst with an Inner Join from an Inner Join : X <- A <- B
+            Console.WriteLine(" -- get with Join and the Join of the target");
+        
+            foreach (localite l in context.localites.Include("Hotels.Customers"))
+            {
+                foreach (Hotel h in l.Hotels)
+                {
+                    Console.WriteLine("Hotel: " + h.Name);
+                }
+            }
+
+            // Stored Procedures (Auto call before that's mapped)
+            Console.WriteLine("-- Delete with Stored Procedures");
+
+            Customer aSupprimer = context.Customers.Find(3);
+
+            context.Customers.Remove(aSupprimer);
+
+            context.SaveChanges();
+
+            // End programm
+            Console.ReadKey();
         }
     }
 }

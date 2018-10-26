@@ -1,6 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="Model1Container">
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="Model1.Customer">
+        <MappingFragment StoreEntitySet="Customers">
+          <ScalarProperty Name="localite_IdLocalite" ColumnName="localite_IdLocalite" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="Model1.Customer">
+        <ModificationFunctionMapping>
+          <DeleteFunction FunctionName="Model1.Store.CustomerInsert">
+            <ScalarProperty Name="Id" ParameterName="custID" />
+          </DeleteFunction>
+          <InsertFunction FunctionName="Model1.Store.CustomerInsert">
+            <ScalarProperty Name="Id" ParameterName="custID" />
+          </InsertFunction>
+        </ModificationFunctionMapping>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Hotels">
       <EntityTypeMapping TypeName="Model1.Hotel">
         <MappingFragment StoreEntitySet="Hotels">
@@ -26,5 +45,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <AssociationSetMapping Name="CustomerHotel" TypeName="Model1.CustomerHotel" StoreEntitySet="CustomerHotel">
+      <EndProperty Name="Hotel">
+        <ScalarProperty Name="idHotel" ColumnName="Hotels_idHotel" />
+      </EndProperty>
+      <EndProperty Name="Customer">
+        <ScalarProperty Name="Id" ColumnName="Customers_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <FunctionImportMapping FunctionImportName="CustomerDelete" FunctionName="Model1.Store.CustomerDelete" />
+    <FunctionImportMapping FunctionImportName="CustomerInsert" FunctionName="Model1.Store.CustomerInsert" />
   </EntityContainerMapping>
 </Mapping>

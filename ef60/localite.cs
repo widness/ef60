@@ -17,6 +17,7 @@ namespace ef60
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public localite()
         {
+            this.Customers = new HashSet<Customer>();
             this.Hotels = new HashSet<Hotel>();
         }
     
@@ -24,6 +25,8 @@ namespace ef60
         public string Name { get; set; }
         public string NPA { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Customer> Customers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Hotel> Hotels { get; set; }
     }

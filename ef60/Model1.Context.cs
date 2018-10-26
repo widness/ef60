@@ -12,6 +12,8 @@ namespace ef60
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class Model1Container : DbContext
     {
@@ -25,7 +27,26 @@ namespace ef60
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Hotel> Hotels { get; set; }
         public virtual DbSet<localite> localites { get; set; }
+    
+        public virtual int CustomerDelete(Nullable<int> custID)
+        {
+            var custIDParameter = custID.HasValue ?
+                new ObjectParameter("custID", custID) :
+                new ObjectParameter("custID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CustomerDelete", custIDParameter);
+        }
+    
+        public virtual int CustomerInsert(Nullable<int> custID)
+        {
+            var custIDParameter = custID.HasValue ?
+                new ObjectParameter("custID", custID) :
+                new ObjectParameter("custID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CustomerInsert", custIDParameter);
+        }
     }
 }
